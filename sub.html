@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상세페이지</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* 폰트 설정 */
+        }
+        .container {
+            display: flex; /* 플렉스 박스 사용 */
+            width: 860px; /* 전체 콘텐츠 너비 설정 */
+            margin: auto;
+            text-align: center; /* 중앙 정렬 */
+            background-color: #f8f5f3; /* 연한 베이지색으로 설정 */
+            border: 1px solid #eaeaea; /* 테두리 색상 */
+            border-radius: 10px; /* 모서리 둥글게 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            padding: 10px 0px 10px 20px; /* 내부 여백 */
+            box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+        }
+        .video-container {
+            width: 55%; /* 비디오 영역 너비 */
+        }
+        video {
+            width: 100%; /* 비디오 너비 100%로 설정 */
+            height: auto; /* 비디오 높이는 자동 */
+            margin-top: 10px;
+            border-radius: 10px; /* 비디오 모서리 둥글게 */
+            overflow: hidden; /* 넘치는 부분 숨김 */
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column; /* 버튼을 세로로 배치 */
+            justify-content: center; /* 버튼 중앙 정렬 */
+            width: 40%; /* 버튼 영역 너비 */
+            margin-left: 20px; /* 비디오와 버튼 간격 */
+        }
+        .play-button {
+            cursor: pointer;
+            width: 100%; /* 버튼 너비 100%로 설정 */
+            height: auto; /* 높이는 자동 */
+            display: flex; /* 플렉스 박스 사용 */
+            justify-content: center; /* 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            margin: 10px 0; /* 버튼 위아래 간격 조정 */
+            position: relative; /* 아이콘 위치 조정을 위해 상대적으로 설정 */
+            overflow: hidden; /* 넘치는 부분 숨김 */
+            border-radius: 10px; /* 버튼 모서리 둥글게 */
+        }
+        .play-button img {
+            width: 100%; /* 이미지 너비 100%로 설정 */
+            height: auto; /* 높이는 자동 */
+            object-fit: cover; /* 비율 유지하며 채우기 */
+            border-radius: 10px; /* 이미지 모서리 둥글게 */
+            filter: brightness(100%); /* 이미지 밝기를 원래대로 설정 */
+            position: absolute; /* 버튼 이미지 위치 조정 */
+            bottom: 0; /* 하단에 위치 */
+            left: 50%; /* 가운데 정렬 */
+            transform: translateX(-50%); /* 중앙으로 이동 */
+        }
+    .play-button .status {
+        position: absolute; /* 텍스트의 위치를 절대적으로 설정 */
+        color: white; /* 텍스트 색상 흰색 */
+        font-size: 18px; /* 텍스트 크기 */
+        display: none; /* 기본적으로 숨김 */
+        animation: pulse 1s infinite; /* 애니메이션 추가 */
+        top: 10px; /* 상단에서 10px 위치 */
+        right: 15px; /* 오른쪽에서 15px 위치 */
+        background-color: rgba(0, 0, 0, 0.7); /* 반투명 배경색 */
+        padding: 5px 10px; /* 여백 추가 */
+        border-radius: 5px; /* 모서리 둥글게 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
+        transform: translateY(-10px); /* 위로 약간 이동 */
+        transition: transform 0.3s ease; /* 애니메이션 효과 추가 */
+    }
+    
+    .play-button.active .status {
+        display: block; /* 활성화된 버튼에서만 표시 */
+        animation: none; /* 애니메이션 제거 */
+        transform: translateY(0); /* 기본 위치로 이동 */
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container">
+            <video id="video1" controls autoplay muted>
+                <source src="https://chaesoohoon.github.io/blog/video1.mp4" type="video/mp4">
+                당신의 브라우저는 비디오 태그를 지원하지 않습니다.
+            </video>
+            <video id="video2" controls muted style="display: none;">
+                <source src="https://chaesoohoon.github.io/blog/video2.webm" type="video/webm">
+                당신의 브라우저는 비디오 태그를 지원하지 않습니다.
+            </video>
+        </div>
+        <div class="button-container">
+            <div id="button1" class="play-button active"> <!-- 초기 활성화 -->
+                <img src="https://chaesoohoon.github.io/blog/bt1.jpg" alt="재생 버튼">
+                <div class="status">재생중</div> <!-- "재생중" 텍스트 추가 -->
+            </div>
+            <div id="button2" class="play-button">
+                <img src="https://chaesoohoon.github.io/blog/bt2.jpg" alt="재생 버튼">
+                <div class="status">재생중</div> <!-- "재생중" 텍스트 추가 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video1 = document.getElementById('video1');
+        const video2 = document.getElementById('video2');
+        const button1 = document.getElementById('button1');
+        const button2 = document.getElementById('button2');
+        const status1 = button1.querySelector('.status');
+        const status2 = button2.querySelector('.status');
+
+        // 비디오1 자동 재생 설정
+        video1.style.display = 'block'; // 비디오1은 기본적으로 보이도록 설정
+
+        // 비디오의 높이를 버튼에 맞추기
+        function adjustButtonHeight() {
+            const videoHeight = video1.offsetHeight; // 비디오 높이 가져오기
+            const buttonHeight = (videoHeight / 2) - 10; // 각 버튼 높이를 비디오 높이의 절반에서 10px 감소
+            button1.style.height = `${buttonHeight}px`; // 버튼1 높이 설정
+            button2.style.height = `${buttonHeight}px`; // 버튼2 높이 설정
+        }
+
+        // 페이지 로드 시 버튼 높이 조정
+        window.addEventListener('load', adjustButtonHeight);
+
+        // 창 크기 조정 시 버튼 높이 조정
+        window.addEventListener('resize', adjustButtonHeight);
+
+        button1.addEventListener('click', () => {
+            video2.pause(); // 비디오2 일시 정지
+            video2.style.display = 'none'; // 비디오2 숨김
+            video1.style.display = 'block'; // 비디오1 보이기
+            video1.play(); // 비디오1 재생
+            button1.classList.add('active'); // 버튼1 활성화
+            button2.classList.remove('active'); // 버튼2 비활성화
+        });
+
+        button2.addEventListener('click', () => {
+            video1.pause(); // 비디오1 일시 정지
+            video1.style.display = 'none'; // 비디오1 숨김
+            video2.style.display = 'block'; // 비디오2 보이기
+            video2.play(); // 비디오2 재생
+            button2.classList.add('active'); // 버튼2 활성화
+            button1.classList.remove('active'); // 버튼1 비활성화
+        });
+    </script>
+</body>
+</html>
